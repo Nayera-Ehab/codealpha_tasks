@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LUMINA — Capture the Moment</title>
+<meta name="description" content="LUMINA — a curated collection of visual stories from around the world.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,600;1,9..144,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ============ HEADER ============ -->
+<header class="site-header" id="siteHeader">
+  <div class="header-inner">
+    <a href="#" class="logo" aria-label="LUMINA home">
+      <svg class="logo-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M4 8a2 2 0 0 1 2-2h1.2a1 1 0 0 0 .83-.45l.94-1.4A1 1 0 0 1 9.8 3.6h4.4a1 1 0 0 1 .83.45l.94 1.4a1 1 0 0 0 .83.45H18a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+        <circle cx="12" cy="12.5" r="3.4" stroke="currentColor" stroke-width="1.5"/>
+      </svg>
+      <span>LUMINA</span>
+    </a>
+
+    <nav class="main-nav" id="mainNav" aria-label="Primary">
+      <a href="#gallery" class="nav-link" data-view="explore">Explore</a>
+      <a href="#categories" class="nav-link" data-view="categories">Categories</a>
+      <a href="#favorites" class="nav-link" data-view="favorites">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" class="nav-heart"><path d="M12 20.3s-7.5-4.6-10-9.3C.4 7.6 2.4 4 6 4c2 0 3.5 1 4.6 2.6C11.7 5 13.2 4 15.2 4c3.6 0 5.6 3.6 4 7-2.5 4.7-10 9.3-10 9.3Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+        Favorites
+      </a>
+    </nav>
+
+    <div class="header-actions">
+      <button class="icon-btn" id="themeToggle" aria-label="Toggle theme" title="Toggle theme">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M20.5 14.5a8.5 8.5 0 1 1-9-11 7 7 0 0 0 9 11Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+      </button>
+      <button class="icon-btn hamburger" id="hamburgerBtn" aria-label="Open menu" aria-expanded="false" aria-controls="mobileNav">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile nav -->
+  <nav class="mobile-nav" id="mobileNav" aria-label="Mobile">
+    <a href="#gallery" class="mobile-nav-link" data-view="explore">Explore</a>
+    <a href="#categories" class="mobile-nav-link" data-view="categories">Categories</a>
+    <a href="#favorites" class="mobile-nav-link" data-view="favorites">Favorites</a>
+  </nav>
+</header>
+
+<!-- ============ HERO ============ -->
+<section class="hero">
+  <div class="hero-bg" aria-hidden="true"></div>
+  <div class="hero-inner">
+    <p class="hero-eyebrow">A LUMINA collection</p>
+    <h1 class="hero-title">Capture the <span class="accent">Moment</span></h1>
+    <p class="hero-sub">A collection of visual stories from around the world.</p>
+
+    <form class="search-form" id="searchForm" role="search">
+      <label for="searchInput" class="sr-only">Search images</label>
+      <svg class="search-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="1.6"/><path d="m20 20-3.2-3.2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+      <input type="text" id="searchInput" placeholder="Search images..." autocomplete="off">
+    </form>
+
+    <div class="categories" id="categories" role="group" aria-label="Filter by category">
+      <button class="cat-btn is-active" data-category="all">All</button>
+      <button class="cat-btn" data-category="nature">Nature</button>
+      <button class="cat-btn" data-category="travel">Travel</button>
+      <button class="cat-btn" data-category="architecture">Architecture</button>
+      <button class="cat-btn" data-category="people">People</button>
+      <button class="cat-btn" data-category="animals">Animals</button>
+    </div>
+  </div>
+</section>
+
+<!-- ============ GALLERY ============ -->
+<main>
+  <section class="gallery-section" id="gallery">
+    <div class="gallery-head">
+      <h2 id="galleryHeading">Explore</h2>
+      <span class="gallery-count" id="galleryCount"></span>
+    </div>
+    <div class="gallery-grid" id="galleryGrid" aria-live="polite"></div>
+    <p class="empty-state" id="emptyState" hidden>No images found. Try a different search or category.</p>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <p>&copy; 2026 LUMINA. Visual stories, curated with care.</p>
+</footer>
+
+<!-- ============ LIGHTBOX ============ -->
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Image viewer" hidden>
+  <div class="lightbox-overlay" id="lightboxOverlay"></div>
+  <div class="lightbox-content">
+    <button class="lb-close" id="lbClose" aria-label="Close viewer">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+    </button>
+
+    <button class="lb-nav lb-prev" id="lbPrev" aria-label="Previous image">
+      <svg viewBox="0 0 24 24" fill="none"><path d="m15 6-6 6 6 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+
+    <div class="lb-image-wrap">
+      <img id="lbImage" src="" alt="">
+    </div>
+
+    <button class="lb-nav lb-next" id="lbNext" aria-label="Next image">
+      <svg viewBox="0 0 24 24" fill="none"><path d="m9 6 6 6-6 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+
+    <aside class="lb-info">
+      <button class="lb-close-mobile" id="lbCloseMobile" aria-label="Close viewer">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+      </button>
+      <span class="lb-category" id="lbCategory">Nature</span>
+      <h3 class="lb-title" id="lbTitle">Title</h3>
+      <p class="lb-desc" id="lbDesc">Description</p>
+      <div class="lb-divider"></div>
+      <div class="lb-counter" id="lbCounter">1 / 12</div>
+      <div class="lb-actions">
+        <button class="lb-action-btn" id="lbFavorite" aria-label="Toggle favorite" aria-pressed="false">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M12 20.3s-7.5-4.6-10-9.3C.4 7.6 2.4 4 6 4c2 0 3.5 1 4.6 2.6C11.7 5 13.2 4 15.2 4c3.6 0 5.6 3.6 4 7-2.5 4.7-10 9.3-10 9.3Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+        </button>
+        <button class="lb-action-btn" id="lbDownload" aria-label="Download image">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M12 4v11m0 0 4-4m-4 4-4-4M5 19h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <button class="lb-action-btn" id="lbFullscreen" aria-label="View fullscreen">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M4 9V5h4M15 5h5v4M20 15v4h-4M9 20H4v-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+    </aside>
+  </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
