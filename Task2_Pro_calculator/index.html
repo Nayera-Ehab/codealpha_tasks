@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>ProCalc — Professional Calculator</title>
+<meta name="description" content="A polished, keyboard-friendly calculator with scientific mode, history and themes.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body data-theme="dark" data-mode="standard">
+
+<div class="app">
+
+  <!-- ===== HEADER ===== -->
+  <header class="app-header">
+    <div class="brand">
+      <span class="brand-mark" aria-hidden="true">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+          <rect x="3" y="2" width="18" height="20" rx="4" stroke="currentColor" stroke-width="1.6"/>
+          <rect x="6.5" y="5.2" width="11" height="4.6" rx="1.2" fill="currentColor" opacity=".35"/>
+          <circle cx="8.2" cy="13.4" r="1.15" fill="currentColor"/>
+          <circle cx="12" cy="13.4" r="1.15" fill="currentColor"/>
+          <circle cx="15.8" cy="13.4" r="1.15" fill="currentColor"/>
+          <circle cx="8.2" cy="17.4" r="1.15" fill="currentColor"/>
+          <circle cx="12" cy="17.4" r="1.15" fill="currentColor"/>
+          <circle cx="15.8" cy="17.4" r="1.15" fill="currentColor"/>
+        </svg>
+      </span>
+      <span class="brand-name">ProCalc</span>
+    </div>
+
+    <nav class="mode-switch" role="tablist" aria-label="Calculator mode">
+      <button type="button" class="mode-btn is-active" role="tab" aria-selected="true" id="tab-standard" data-mode="standard">Standard</button>
+      <button type="button" class="mode-btn" role="tab" aria-selected="false" id="tab-scientific" data-mode="scientific">Scientific</button>
+      <span class="mode-indicator" aria-hidden="true"></span>
+    </nav>
+
+    <div class="header-actions">
+      <button type="button" class="icon-btn history-toggle" id="historyToggle" aria-label="Toggle calculation history" aria-expanded="false">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none"><path d="M3 12a9 9 0 1 0 3-6.7" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><path d="M3 4v4h4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 8v4.5l3 2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <button type="button" class="icon-btn" id="themeToggle" aria-label="Cycle color theme">
+        <svg class="icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="4.2" stroke="currentColor" stroke-width="1.7"/><path d="M12 2.5v2.4M12 19.1v2.4M4.2 4.2l1.7 1.7M18.1 18.1l1.7 1.7M2.5 12h2.4M19.1 12h2.4M4.2 19.8l1.7-1.7M18.1 5.9l1.7-1.7" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+      </button>
+      <button type="button" class="icon-btn" id="settingsToggle" aria-label="Open settings" aria-expanded="false">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 15.2a3.2 3.2 0 1 0 0-6.4 3.2 3.2 0 0 0 0 6.4Z" stroke="currentColor" stroke-width="1.6"/><path d="M19.4 12.9a1.6 1.6 0 0 0 .3 1.8l.1.1a1.9 1.9 0 1 1-2.7 2.7l-.1-.1a1.6 1.6 0 0 0-1.8-.3 1.6 1.6 0 0 0-1 1.5v.2a1.9 1.9 0 1 1-3.8 0v-.1a1.6 1.6 0 0 0-1-1.5 1.6 1.6 0 0 0-1.8.3l-.1.1a1.9 1.9 0 1 1-2.7-2.7l.1-.1a1.6 1.6 0 0 0 .3-1.8 1.6 1.6 0 0 0-1.5-1h-.2a1.9 1.9 0 1 1 0-3.8h.1a1.6 1.6 0 0 0 1.5-1 1.6 1.6 0 0 0-.3-1.8l-.1-.1a1.9 1.9 0 1 1 2.7-2.7l.1.1a1.6 1.6 0 0 0 1.8.3h0a1.6 1.6 0 0 0 1-1.5v-.2a1.9 1.9 0 1 1 3.8 0v.1a1.6 1.6 0 0 0 1 1.5h0a1.6 1.6 0 0 0 1.8-.3l.1-.1a1.9 1.9 0 1 1 2.7 2.7l-.1.1a1.6 1.6 0 0 0-.3 1.8v0a1.6 1.6 0 0 0 1.5 1h.2a1.9 1.9 0 1 1 0 3.8h-.1a1.6 1.6 0 0 0-1.5 1Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- ===== MAIN LAYOUT ===== -->
+  <div class="layout">
+
+    <!-- ===== CALCULATOR COLUMN ===== -->
+    <main class="calc-column">
+
+      <section class="display-card" aria-label="Calculator display">
+        <div class="display-topline">
+          <span class="display-label">Expression</span>
+          <button type="button" class="copy-btn" id="copyResult" aria-label="Copy result to clipboard">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><rect x="8" y="8" width="12" height="12" rx="2.2" stroke="currentColor" stroke-width="1.6"/><path d="M16 8V6.2A2.2 2.2 0 0 0 13.8 4H6.2A2.2 2.2 0 0 0 4 6.2v7.6A2.2 2.2 0 0 0 6.2 16H8" stroke="currentColor" stroke-width="1.6"/></svg>
+          </button>
+        </div>
+        <div class="expression" id="expression" role="status" aria-live="polite">&nbsp;</div>
+        <div class="result-row">
+          <span class="display-label result-label">Result</span>
+          <div class="result" id="result" aria-live="polite">0</div>
+        </div>
+      </section>
+
+      <div class="angle-mode" id="angleMode" aria-label="Angle unit">
+        <button type="button" class="angle-btn is-active" data-angle="DEG">DEG</button>
+        <button type="button" class="angle-btn" data-angle="RAD">RAD</button>
+      </div>
+
+      <!-- Scientific extra keys -->
+      <section class="sci-grid" id="sciGrid" aria-label="Scientific functions">
+        <button class="key key-fn" data-fn="sin">sin</button>
+        <button class="key key-fn" data-fn="cos">cos</button>
+        <button class="key key-fn" data-fn="tan">tan</button>
+        <button class="key key-fn" data-fn="asin">sin<sup>-1</sup></button>
+        <button class="key key-fn" data-fn="acos">cos<sup>-1</sup></button>
+        <button class="key key-fn" data-fn="atan">tan<sup>-1</sup></button>
+        <button class="key key-fn" data-fn="sqrt">√x</button>
+        <button class="key key-fn" data-square>x²</button>
+        <button class="key key-fn" data-power>x<sup>y</sup></button>
+        <button class="key key-fn" data-fn="log">log</button>
+        <button class="key key-fn" data-fn="ln">ln</button>
+        <button class="key key-fn" data-const="π">π</button>
+        <button class="key key-fn" data-const="e">e</button>
+        <button class="key key-fn" data-fn="abs">|x|</button>
+        <button class="key key-fn" data-factorial>x!</button>
+      </section>
+
+      <!-- Main keypad -->
+      <section class="keypad" aria-label="Calculator keys">
+        <button class="key key-util" data-action="memclear">MC</button>
+        <button class="key key-util" data-action="memrecall">MR</button>
+        <button class="key key-util" data-action="memadd">M+</button>
+        <button class="key key-util" data-action="memsub">M-</button>
+
+        <button class="key key-paren" data-paren="(">(</button>
+        <button class="key key-paren" data-paren=")">)</button>
+        <button class="key key-op-alt" data-percent aria-label="Percent">%</button>
+        <button class="key key-clear" data-action="clear">AC</button>
+
+        <button class="key key-num" data-num="7">7</button>
+        <button class="key key-num" data-num="8">8</button>
+        <button class="key key-num" data-num="9">9</button>
+        <button class="key key-op" data-op="÷" aria-label="Divide">÷</button>
+
+        <button class="key key-num" data-num="4">4</button>
+        <button class="key key-num" data-num="5">5</button>
+        <button class="key key-num" data-num="6">6</button>
+        <button class="key key-op" data-op="×" aria-label="Multiply">×</button>
+
+        <button class="key key-num" data-num="1">1</button>
+        <button class="key key-num" data-num="2">2</button>
+        <button class="key key-num" data-num="3">3</button>
+        <button class="key key-op" data-op="−" aria-label="Subtract">−</button>
+
+        <button class="key key-sign" data-action="sign" aria-label="Toggle positive or negative">+/−</button>
+        <button class="key key-num" data-num="0">0</button>
+        <button class="key key-num" data-action="decimal">.</button>
+        <button class="key key-op" data-op="+" aria-label="Add">+</button>
+
+        <button class="key key-del" data-action="delete" aria-label="Delete last character">DEL</button>
+        <button class="key key-equals" data-action="equals" aria-label="Calculate result">=</button>
+      </section>
+    </main>
+
+    <!-- ===== HISTORY PANEL ===== -->
+    <aside class="history-panel" id="historyPanel" aria-label="Calculation history">
+      <div class="history-head">
+        <h2>History</h2>
+        <button type="button" class="icon-btn history-close" id="historyClose" aria-label="Close history">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 5l14 14M19 5L5 19" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+        </button>
+      </div>
+      <div class="history-search">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="1.8"/><path d="M21 21l-4.3-4.3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+        <input type="search" id="historySearch" placeholder="Search history…" aria-label="Search history">
+      </div>
+      <ul class="history-list" id="historyList"></ul>
+      <div class="history-empty" id="historyEmpty">
+        <svg width="40" height="40" viewBox="0 0 24 24" fill="none"><path d="M3 12a9 9 0 1 0 3-6.7" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><path d="M3 4v4h4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 8v4.5l3 2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <p class="empty-title">No calculations yet</p>
+        <p class="empty-sub">Your calculations will appear here.</p>
+      </div>
+      <button type="button" class="clear-history-btn" id="clearHistory">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M4 7h16M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2m2 0-.8 12.1a2 2 0 0 1-2 1.9H8.8a2 2 0 0 1-2-1.9L6 7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Clear History
+      </button>
+    </aside>
+    <div class="scrim" id="historyScrim"></div>
+  </div>
+</div>
+
+<!-- ===== SETTINGS PANEL ===== -->
+<div class="settings-scrim" id="settingsScrim"></div>
+<aside class="settings-panel" id="settingsPanel" aria-label="Settings" aria-hidden="true">
+  <div class="settings-head">
+    <h2>Settings</h2>
+    <button type="button" class="icon-btn" id="settingsClose" aria-label="Close settings">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 5l14 14M19 5L5 19" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+    </button>
+  </div>
+
+  <div class="settings-group">
+    <h3>Theme</h3>
+    <div class="theme-swatches" id="themeSwatches" role="group" aria-label="Choose theme">
+      <button type="button" class="swatch" data-theme="dark" aria-label="Dark theme"><span class="swatch-dot swatch-dark"></span>Dark</button>
+      <button type="button" class="swatch" data-theme="light" aria-label="Light theme"><span class="swatch-dot swatch-light"></span>Light</button>
+      <button type="button" class="swatch" data-theme="emerald" aria-label="Emerald theme"><span class="swatch-dot swatch-emerald"></span>Emerald</button>
+    </div>
+  </div>
+
+  <div class="settings-group">
+    <h3>Decimal places</h3>
+    <div class="decimal-choice" id="decimalChoice" role="group" aria-label="Decimal places">
+      <button type="button" data-decimals="2">2</button>
+      <button type="button" data-decimals="4" class="is-active">4</button>
+      <button type="button" data-decimals="6">6</button>
+      <button type="button" data-decimals="8">8</button>
+    </div>
+  </div>
+
+  <div class="settings-group">
+    <h3>Keyboard shortcuts</h3>
+    <dl class="shortcut-list">
+      <div><dt>0–9</dt><dd>Numbers</dd></div>
+      <div><dt>+ − * /</dt><dd>Operators</dd></div>
+      <div><dt>( )</dt><dd>Parentheses</dd></div>
+      <div><dt>Enter</dt><dd>Calculate</dd></div>
+      <div><dt>Backspace</dt><dd>Delete</dd></div>
+      <div><dt>Escape</dt><dd>Clear all</dd></div>
+      <div><dt>%</dt><dd>Percentage</dd></div>
+      <div><dt>.</dt><dd>Decimal point</dd></div>
+    </dl>
+  </div>
+</aside>
+
+<div class="sr-only" id="liveAnnounce" aria-live="assertive"></div>
+
+<script src="script.js"></script>
+</body>
+</html>
